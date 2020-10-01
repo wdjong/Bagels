@@ -1,3 +1,5 @@
+'this is an adaption of a creative computing game
+'tht I used when i was getting used to vb.net
 Option Strict Off
 Option Explicit On
 Module modWinBag
@@ -70,7 +72,7 @@ Module modWinBag
 
         isValidCode = True
         strCode = VB6.Format(aCode, "00000")
-        For i = My.Settings.Numbers + 1 To 9
+        For i = My.Settings.Numbers + 1 To 9 'Check for digits not in play
             If strCode.Contains(i.ToString) Then
                 isValidCode = False
                 Exit Function
@@ -342,6 +344,24 @@ Module modWinBag
             ClearAll()
             Randomize()
             ChooseRnd()
+
+            While .Dig1.Items.Count > My.Settings.Numbers + 1
+                Dim i As Integer = .Dig1.Items.Count - 1
+                .Dig1.Items.RemoveAt(i)
+                .Dig2.Items.RemoveAt(i)
+                .Dig3.Items.RemoveAt(i)
+                .Dig4.Items.RemoveAt(i)
+                .Dig5.Items.RemoveAt(i)
+            End While
+            While .Dig1.Items.Count < My.Settings.Numbers + 1
+                Dim i As Integer = .Dig1.Items.Count
+                .Dig1.Items.Add(i)
+                .Dig2.Items.Add(i)
+                .Dig3.Items.Add(i)
+                .Dig4.Items.Add(i)
+                .Dig5.Items.Add(i)
+            End While
+
             '.Show()
             'MsgBox("I'm thinking of a number. Try to guess the number and I'll give you clues.")
         End With
@@ -456,9 +476,8 @@ Module modWinBag
         With My.Forms.frmWinBag ' frmWinBag.DefInstance
             Try
                 iGuess = Int(GetCurrentGuess)
-                If isValidCode(iGuess) Then 'do the old check to make sure they entered something in every field
-                    Select Case My.Settings.Columns
-                        'If !Dig1 <> "" And !Dig2 <> "" And !dig3 <> "" And !Dig4 <> "" Then 'have guessed
+                If isValidCode(iGuess) Then 'make sure they entered something in every field
+                    Select Case My.Settings.Columns 'Depending on how many columns are in play
                         Case 1
                             If .Dig1.Text <> "" Then
                                 ValidGuess = True

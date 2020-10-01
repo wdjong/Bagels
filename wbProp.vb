@@ -1,6 +1,6 @@
 Option Strict Off
 Option Explicit On
-Friend Class frmwbProp
+Friend Class FrmwbProp
     Inherits System.Windows.Forms.Form
 
 #Region "Windows Form Designer generated code "
@@ -51,7 +51,7 @@ Friend Class frmwbProp
     Friend WithEvents Slider1 As System.Windows.Forms.TrackBar
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmwbProp))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmwbProp))
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.Slider3 = New System.Windows.Forms.TrackBar
         Me.Cancel = New System.Windows.Forms.Button
@@ -197,18 +197,18 @@ Friend Class frmwbProp
     End Sub
 #End Region
 #Region "Upgrade Support "
-    Private Shared m_vb6FormDefInstance As frmWBProp
+    Private Shared m_vb6FormDefInstance As FrmwbProp
     Private Shared m_InitializingDefInstance As Boolean
-    Public Shared Property DefInstance() As frmWBProp
+    Public Shared Property DefInstance() As FrmwbProp
         Get
             If m_vb6FormDefInstance Is Nothing OrElse m_vb6FormDefInstance.IsDisposed Then
                 m_InitializingDefInstance = True
-                m_vb6FormDefInstance = New frmWBProp()
+                m_vb6FormDefInstance = New FrmwbProp()
                 m_InitializingDefInstance = False
             End If
             DefInstance = m_vb6FormDefInstance
         End Get
-        Set(ByVal value As frmWBProp)
+        Set(ByVal value As FrmwbProp)
             m_vb6FormDefInstance = value
         End Set
     End Property
@@ -226,7 +226,7 @@ Friend Class frmwbProp
         Me.Close()
     End Sub
 
-    Private Sub frmwbProp_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Private Sub FrmwbProp_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Try
             Slider1.Value = My.Settings.Columns
             Slider2.Value = My.Settings.Numbers
