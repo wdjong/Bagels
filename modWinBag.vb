@@ -1,5 +1,6 @@
 'this is an adaption of a creative computing game
-'tht I used when i was getting used to vb.net
+'converted from vb6 to vb.net for educational purposes
+'It's like the commercial Mastermind game
 Option Strict Off
 Option Explicit On
 Module modWinBag
@@ -12,29 +13,15 @@ Module modWinBag
     Function CGuess() As Integer
         'return the first value that is consistent with evidence
         Dim gd As Integer 'guess
-        Dim cg As Integer 'curGuess
-        Dim possible As Boolean
+        'Dim cg As Integer 'curGuess
+        'Dim possible As Boolean
 
         System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor
         CGuess = 10 ^ My.Settings.Columns 'an impossible value
-        For gd = 0 To 10 ^ My.Settings.Columns - 1 'generate next number in sequence
-            If curGuess = 0 Then
-                CGuess = 0
-            Else 'check existing guesses
-                If isValidCode(gd) Then 'check only legal numbers used
-                    possible = True 'assume guess is ok
-                    cg = 0 'current guess
-                    Do While possible And cg < curGuess
-                        If Not IsConsistent(gd, cg) Then
-                            possible = False 'didn't pass
-                        Else
-                            cg = cg + 1 'check next guess
-                        End If
-                    Loop
-                    If possible Then 'passed all tests
-                        CGuess = gd
-                    End If
-                End If
+        For gd = 0 To 10 ^ My.Settings.Columns - 1 'Check each number 2 columns 0 - 99
+            If IsPossible(gd) Then
+                CGuess = gd
+                Exit For
             End If
         Next gd
         If CGuess = 10 ^ My.Settings.Columns Then
@@ -43,13 +30,30 @@ Module modWinBag
         System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default
     End Function
 
+    Function CGuessRandom() As Integer
+        'return a random value that is consistent with evidence
+        Dim failSafe As Integer
+        Dim aCode As Integer
+
+        aCode = Int(10 ^ My.Settings.Columns * Rnd())
+        Do While Not (IsPossible(aCode)) And failSafe < 1000
+            aCode = Int(10 ^ My.Settings.Columns * Rnd())
+            failSafe += 1
+        Loop
+        If failSafe >= 10000 Then
+            CGuessRandom = CGuess()
+        Else
+            CGuessRandom = aCode
+        End If
+    End Function
+
     Function IsConsistent(ByRef aGuess As Integer, ByRef aGuessNum As Integer) As Boolean
-        'Checks possible values against responses to previous guesses (and legal values)
+        'If this guess is possibly the right code it will produce the same output (fermi and pico) that the actual code did for THIS guess turn number (i.e. do this for all guesses to this point)
         Dim aPico As Integer
         Dim afermi As Integer
 
         IsConsistent = True
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             StackCode(0) 'save actual code
             SetCode(aGuess) 'replace it with aGuess (assuming it is correct)
             afermi = CountFermi(aGuessNum) 'if aGuess was the code and aGuessNum was evaluated how many with correct place and number
@@ -65,16 +69,37 @@ Module modWinBag
         End With
     End Function
 
-    Function isValidCode(ByVal aCode As Integer) As Boolean
+    Function IsPossible(aGuess As Integer) As Boolean
+        Dim possible As Boolean
+        Dim guessTurnNumber As Integer
+
+        IsPossible = False
+        If IsValidCode(aGuess) Then 'check only legal numbers used
+            possible = True 'assume guess is ok
+            guessTurnNumber = 0 'current guess turn number
+            Do While possible And guessTurnNumber < curGuess 'curGuess is where the currentGuessTurnNumber
+                If Not IsConsistent(aGuess, guessTurnNumber) Then
+                    possible = False 'didn't pass
+                Else
+                    guessTurnNumber += 1 ' = cg + 1 'check next guess turn
+                End If
+            Loop
+            If possible Then 'passed all tests
+                IsPossible = True
+            End If
+        End If
+    End Function
+
+    Function IsValidCode(ByVal aCode As Integer) As Boolean
         'return true if code passed contains no ill eagle characters
         Dim strCode As String
         Dim i As Byte
 
-        isValidCode = True
-        strCode = VB6.Format(aCode, "00000")
-        For i = My.Settings.Numbers + 1 To 9 'Check for digits not in play
+        IsValidCode = True
+        strCode = aCode.ToString("00000")
+        For i = My.Settings.Numbers To 9 'Check for digits not in play
             If strCode.Contains(i.ToString) Then
-                isValidCode = False
+                IsValidCode = False
                 Exit Function
             End If
         Next i
@@ -84,8 +109,8 @@ Module modWinBag
         'put a value in the code fields (if temporary call StackCode(0) first)
         Dim strCode As String
 
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
-            strCode = VB6.Format(aCode, "00000")
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
+            strCode = aCode.ToString("00000")
             .Cod1.Text = Mid(strCode, 5, 1)
             .Cod2.Text = Mid(strCode, 4, 1)
             .Cod3.Text = Mid(strCode, 3, 1)
@@ -102,7 +127,7 @@ Module modWinBag
         Static c4 As String
         Static c5 As String
 
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             Select Case action
                 Case 0 'push
                     c1 = .Cod1.Text
@@ -124,12 +149,12 @@ Module modWinBag
         Dim aCode As Integer
         Dim strCode As String
 
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             aCode = Int(10 ^ My.Settings.Columns * Rnd())
-            Do While Not isValidCode(aCode)
+            Do While Not IsValidCode(aCode)
                 aCode = Int(10 ^ My.Settings.Columns * Rnd())
             Loop
-            strCode = VB6.Format(aCode, "00000")
+            strCode = aCode.ToString("00000")
             .Cod1.Text = Mid(strCode, 5, 1)
             .Cod2.Text = Mid(strCode, 4, 1)
             .Cod3.Text = Mid(strCode, 3, 1)
@@ -141,7 +166,7 @@ Module modWinBag
     Sub ClearAll()
         Dim g As Integer
 
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             For g = 0 To MaxGuess - 1 'because we're making them all invisibleMy.Settings.Guesses
                 .GD1(g).Text = ""
                 .GD1(g).Visible = False
@@ -158,8 +183,8 @@ Module modWinBag
                 .PD(g).Text = ""
                 .PD(g).Visible = False
             Next g
-            .lblFermi.Visible = False
-            .lblPico.Visible = False
+            .LblFermi.Visible = False
+            .LblPico.Visible = False
             .Cod1.Text = ""
             .Cod1.Visible = False
             .Cod2.Text = ""
@@ -183,50 +208,29 @@ Module modWinBag
         End With
     End Sub
 
-    Sub setBGround(ByRef aCont As System.Windows.Forms.Control, ByRef i As Integer)
+    Sub SetBGround(ByRef aCont As System.Windows.Forms.Control, ByRef i As Integer)
         aCont.BackColor = System.Drawing.ColorTranslator.FromOle(QBColor(i)) '&HFFFFFF / NoOfNumbers * i
         If i < My.Settings.Numbers / 2 Then
             aCont.ForeColor = System.Drawing.ColorTranslator.FromOle(QBColor(7)) '&HFFFFFF
         Else
             aCont.ForeColor = System.Drawing.ColorTranslator.FromOle(QBColor(0)) '&H0
         End If
-        'Select Case i
-        'Case 0
-        '    aCont.BackColor = &H404040
-        'Case 1
-        '    aCont.BackColor = &H80FF80
-        'Case 2
-        '    aCont.BackColor = &H8080FF
-        'Case 3
-        '    aCont.BackColor = &H80FFFF
-        'Case 4
-        '    aCont.BackColor = &HFF80FF
-        'Case 5
-        '    aCont.BackColor = &H40FFC0
-        'Case 6
-        '    aCont.BackColor = &HFF40C0
-        'Case 7
-        '    aCont.BackColor = &HC0FF40
-        'Case 8
-        '    aCont.BackColor = &H40C0FF
-        'Case 9
-        '    aCont.BackColor = &HFFC040
-        'End Select
     End Sub
 
     Function CountFermi(ByRef cg As Integer) As Integer
+        'a fermi is a number in the right place 
         Dim aCode As String
         Dim bGuess As String
         Dim j As Integer
         Dim d As Integer
 
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             aCode = GetCode()
             bGuess = GetGuess(cg)
             d = 0
             For j = 1 To My.Settings.Columns
                 If Mid(aCode, j, 1) = Mid(bGuess, j, 1) Then
-                    d = d + 1
+                    d += 1
                 End If
             Next
             CountFermi = d
@@ -235,7 +239,7 @@ Module modWinBag
 
     Function GetCode() As String
         GetCode = ""
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             Select Case My.Settings.Columns
                 Case Is = 5
                     GetCode = .Cod5.Text & .Cod4.Text & .Cod3.Text & .Cod2.Text & .Cod1.Text
@@ -252,6 +256,7 @@ Module modWinBag
     End Function
 
     Function CountPico(ByRef cg As Integer) As Integer
+        'a pico is a number in the code but not the right place
         Dim aCode As String
         Dim bGuess As String
         Dim cRange(MaxNum) As Integer
@@ -262,7 +267,7 @@ Module modWinBag
         Dim c As Integer
 
 
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             aCode = GetCode() 'e.g. 337
             bGuess = GetGuess(cg) 'e.g. 333
             c = 0
@@ -275,9 +280,9 @@ Module modWinBag
             For j = 0 To MaxNum - 1 '9
                 If cRange(j) > 0 Then 'e.g CRange(3)=2
                     If gRange(j) <= cRange(j) Then
-                        c = c + gRange(j) 'if the guessed number of 3s was less or = that would be used
+                        c += gRange(j) 'if the guessed number of 3s was less or = that would be used
                     Else
-                        c = c + cRange(j) 'else you've guessed more 3s than are in the code
+                        c += cRange(j) 'else you've guessed more 3s than are in the code
                     End If
                 End If
             Next j
@@ -286,8 +291,9 @@ Module modWinBag
     End Function
 
     Function GetGuess(ByRef g As Integer) As String
+        'get guess index g from table of previous guesses
         GetGuess = ""
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             Select Case My.Settings.Columns
                 Case Is = 5
                     GetGuess = .GD5(g).Text & .GD4(g).Text & .GD3(g).Text & .GD2(g).Text & .GD1(g).Text
@@ -304,8 +310,9 @@ Module modWinBag
     End Function
 
     Function GetCurrentGuess() As String
+        'get the current guess
         GetCurrentGuess = ""
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             Select Case My.Settings.Columns
                 Case Is = 5
                     GetCurrentGuess = .Dig5.Text & .Dig4.Text & .Dig3.Text & .Dig2.Text & .Dig1.Text
@@ -329,9 +336,10 @@ Module modWinBag
     End Function
 
     Function IsRight() As Boolean
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        'all right when no. of Fermi = no. cols
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             If CDbl(.FD(curGuess).Text) = My.Settings.Columns Then
-                IsRight = True 'no. of Fermi = no. cols
+                IsRight = True
             Else
                 IsRight = False
             End If
@@ -339,13 +347,13 @@ Module modWinBag
     End Function
 
     Sub Main_Renamed()
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             curGuess = 0
             ClearAll()
             Randomize()
             ChooseRnd()
 
-            While .Dig1.Items.Count > My.Settings.Numbers + 1
+            While .Dig1.Items.Count > My.Settings.Numbers
                 Dim i As Integer = .Dig1.Items.Count - 1
                 .Dig1.Items.RemoveAt(i)
                 .Dig2.Items.RemoveAt(i)
@@ -353,7 +361,7 @@ Module modWinBag
                 .Dig4.Items.RemoveAt(i)
                 .Dig5.Items.RemoveAt(i)
             End While
-            While .Dig1.Items.Count < My.Settings.Numbers + 1
+            While .Dig1.Items.Count < My.Settings.Numbers
                 Dim i As Integer = .Dig1.Items.Count
                 .Dig1.Items.Add(i)
                 .Dig2.Items.Add(i)
@@ -368,7 +376,7 @@ Module modWinBag
     End Sub
 
     Sub MarkIt()
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             If ValidGuess() Then
                 If .GD1(curGuess).Text = "" Then 'haven't already won
                     MoveGuess()
@@ -379,7 +387,7 @@ Module modWinBag
                         ShowCode()
                         MsgBox("You got it")
                     Else 'stop incrementing (nb used above)
-                        curGuess = curGuess + 1
+                        curGuess += 1
                         If curGuess >= My.Settings.Guesses Then
                             ShowCode()
                             MsgBox("You ran out of guesses")
@@ -394,7 +402,7 @@ Module modWinBag
     End Sub
 
     Sub ShowCode()
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             .Cod1.Visible = (My.Settings.Columns >= 1)
             .Cod2.Visible = (My.Settings.Columns >= 2)
             .Cod3.Visible = (My.Settings.Columns >= 3)
@@ -403,50 +411,59 @@ Module modWinBag
         End With
     End Sub
 
+    Sub ShowGuess(aGuess As Integer)
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
+            .Dig1.Text = aGuess.ToString("00000").Substring(4, 1)
+            .Dig2.Text = aGuess.ToString("00000").Substring(3, 1)
+            .Dig3.Text = aGuess.ToString("00000").Substring(2, 1)
+            .Dig4.Text = aGuess.ToString("00000").Substring(1, 1)
+            .Dig5.Text = aGuess.ToString("00000").Substring(0, 1)
+        End With
+    End Sub
+
     Sub MoveGuess()
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             If curGuess = 0 Then
-                .lblFermi.Visible = True
-                .lblPico.Visible = True
+                .LblFermi.Visible = True
+                .LblPico.Visible = True
             End If
             .FD(curGuess).Visible = True
             .PD(curGuess).Visible = True
             If My.Settings.Columns >= 1 Then
                 .GD1(curGuess).Text = Left(.Dig1.Text, 1)
                 .GD1(curGuess).Visible = True
-                setBGround(.GD1(curGuess), Val(Left(.Dig1.Text, 1)))
+                SetBGround(.GD1(curGuess), Val(Left(.Dig1.Text, 1)))
                 .Dig1.Text = ""
             End If
             If My.Settings.Columns >= 2 Then
                 .GD2(curGuess).Text = Left(.Dig2.Text, 1)
                 .GD2(curGuess).Visible = (My.Settings.Columns >= 2)
-                setBGround(.GD2(curGuess), Val(Left(.Dig2.Text, 1)))
+                SetBGround(.GD2(curGuess), Val(Left(.Dig2.Text, 1)))
                 .Dig2.Text = ""
             End If
             If My.Settings.Columns >= 3 Then
                 .GD3(curGuess).Text = Left(.Dig3.Text, 1)
                 .GD3(curGuess).Visible = (My.Settings.Columns >= 3)
-                setBGround(.GD3(curGuess), Val(Left(.Dig3.Text, 1)))
+                SetBGround(.GD3(curGuess), Val(Left(.Dig3.Text, 1)))
                 .Dig3.Text = ""
             End If
             If My.Settings.Columns >= 4 Then
                 .GD4(curGuess).Text = Left(.Dig4.Text, 1)
                 .GD4(curGuess).Visible = (My.Settings.Columns >= 4)
-                setBGround(.GD4(curGuess), Val(Left(.Dig4.Text, 1)))
+                SetBGround(.GD4(curGuess), Val(Left(.Dig4.Text, 1)))
                 .Dig4.Text = ""
             End If
             If My.Settings.Columns >= 5 Then
                 .GD5(curGuess).Text = Left(.Dig5.Text, 1)
                 .GD5(curGuess).Visible = (My.Settings.Columns >= 5)
-                setBGround(.GD5(curGuess), Val(Left(.Dig5.Text, 1)))
+                SetBGround(.GD5(curGuess), Val(Left(.Dig5.Text, 1)))
                 .Dig5.Text = ""
             End If
         End With
     End Sub
 
-
     Sub SetFocus()
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             Select Case My.Settings.Columns
                 Case 1
                     .Dig1.Focus()
@@ -464,19 +481,18 @@ Module modWinBag
     End Sub
 
     Sub SetStatus()
-        With frmWinBag
+        With FrmWinBag
             .StatusBar1.Panels(1).Text = "P: " & GetPermut() 'permutations
         End With
     End Sub
 
-
     Function ValidGuess() As Boolean
         Dim iGuess As Integer
 
-        With My.Forms.frmWinBag ' frmWinBag.DefInstance
+        With My.Forms.FrmWinBag ' frmWinBag.DefInstance
             Try
                 iGuess = Int(GetCurrentGuess)
-                If isValidCode(iGuess) Then 'make sure they entered something in every field
+                If IsValidCode(iGuess) Then 'make sure they entered something in every field
                     Select Case My.Settings.Columns 'Depending on how many columns are in play
                         Case 1
                             If .Dig1.Text <> "" Then

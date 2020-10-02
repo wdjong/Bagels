@@ -1,6 +1,6 @@
 Option Strict Off
 Option Explicit On
-Friend Class FrmwbProp
+Friend Class FrmWVProp
     Inherits System.Windows.Forms.Form
 
 #Region "Windows Form Designer generated code "
@@ -35,147 +35,205 @@ Friend Class FrmwbProp
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
     Public ToolTip1 As System.Windows.Forms.ToolTip
-    Public WithEvents Cancel As System.Windows.Forms.Button
-    Public WithEvents Command1 As System.Windows.Forms.Button
+    Public WithEvents CmdCancel As System.Windows.Forms.Button
+    Public WithEvents CmdOK As System.Windows.Forms.Button
     'Public WithEvents Slider3 As AxComctlLib.AxSlider
     'Public WithEvents Slider2 As AxComctlLib.AxSlider
     'Public WithEvents Slider1 As AxComctlLib.AxSlider
-    Public WithEvents Label3 As System.Windows.Forms.Label
-    Public WithEvents Label2 As System.Windows.Forms.Label
-    Public WithEvents Label1 As System.Windows.Forms.Label
+    Public WithEvents LblGuess As System.Windows.Forms.Label
+    Public WithEvents LblRange As System.Windows.Forms.Label
+    Public WithEvents LblColumn As System.Windows.Forms.Label
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
-    Friend WithEvents Slider3 As System.Windows.Forms.TrackBar
-    Friend WithEvents Slider2 As System.Windows.Forms.TrackBar
-    Friend WithEvents Slider1 As System.Windows.Forms.TrackBar
+    Friend WithEvents SldGuess As System.Windows.Forms.TrackBar
+    Friend WithEvents SldRange As System.Windows.Forms.TrackBar
+    Friend WithEvents LblColumnVal As Label
+    Friend WithEvents LblRangeVal As Label
+    Friend WithEvents LblGuessVal As Label
+    Friend WithEvents lblProbability As Label
+    Friend WithEvents txtProbability As TextBox
+    Friend WithEvents SldColumn As System.Windows.Forms.TrackBar
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmwbProp))
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmWVProp))
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.Slider3 = New System.Windows.Forms.TrackBar
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.Command1 = New System.Windows.Forms.Button
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Slider2 = New System.Windows.Forms.TrackBar
-        Me.Slider1 = New System.Windows.Forms.TrackBar
-        CType(Me.Slider3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Slider2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Slider1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SldGuess = New System.Windows.Forms.TrackBar()
+        Me.CmdCancel = New System.Windows.Forms.Button()
+        Me.CmdOK = New System.Windows.Forms.Button()
+        Me.LblGuess = New System.Windows.Forms.Label()
+        Me.LblRange = New System.Windows.Forms.Label()
+        Me.LblColumn = New System.Windows.Forms.Label()
+        Me.SldRange = New System.Windows.Forms.TrackBar()
+        Me.SldColumn = New System.Windows.Forms.TrackBar()
+        Me.LblColumnVal = New System.Windows.Forms.Label()
+        Me.LblRangeVal = New System.Windows.Forms.Label()
+        Me.LblGuessVal = New System.Windows.Forms.Label()
+        Me.lblProbability = New System.Windows.Forms.Label()
+        Me.txtProbability = New System.Windows.Forms.TextBox()
+        CType(Me.SldGuess, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SldRange, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SldColumn, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'Slider3
+        'SldGuess
         '
-        Me.Slider3.Location = New System.Drawing.Point(5, 258)
-        Me.Slider3.Minimum = 1
-        Me.Slider3.Name = "Slider3"
-        Me.Slider3.Size = New System.Drawing.Size(212, 45)
-        Me.Slider3.TabIndex = 78
-        Me.ToolTip1.SetToolTip(Me.Slider3, "1")
-        Me.Slider3.Value = 1
+        Me.SldGuess.Location = New System.Drawing.Point(5, 167)
+        Me.SldGuess.Minimum = 1
+        Me.SldGuess.Name = "SldGuess"
+        Me.SldGuess.Size = New System.Drawing.Size(220, 45)
+        Me.SldGuess.TabIndex = 78
+        Me.ToolTip1.SetToolTip(Me.SldGuess, "1")
+        Me.SldGuess.Value = 1
         '
-        'Cancel
+        'CmdCancel
         '
-        Me.Cancel.BackColor = System.Drawing.SystemColors.Control
-        Me.Cancel.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Cancel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cancel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Cancel.Location = New System.Drawing.Point(164, 333)
-        Me.Cancel.Name = "Cancel"
-        Me.Cancel.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Cancel.Size = New System.Drawing.Size(57, 25)
-        Me.Cancel.TabIndex = 4
-        Me.Cancel.Text = "Cancel"
-        Me.Cancel.UseVisualStyleBackColor = False
+        Me.CmdCancel.BackColor = System.Drawing.SystemColors.Control
+        Me.CmdCancel.Cursor = System.Windows.Forms.Cursors.Default
+        Me.CmdCancel.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CmdCancel.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.CmdCancel.Location = New System.Drawing.Point(164, 333)
+        Me.CmdCancel.Name = "CmdCancel"
+        Me.CmdCancel.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.CmdCancel.Size = New System.Drawing.Size(57, 25)
+        Me.CmdCancel.TabIndex = 4
+        Me.CmdCancel.Text = "Cancel"
+        Me.CmdCancel.UseVisualStyleBackColor = False
         '
-        'Command1
+        'CmdOK
         '
-        Me.Command1.BackColor = System.Drawing.SystemColors.Control
-        Me.Command1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Command1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Command1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Command1.Location = New System.Drawing.Point(101, 333)
-        Me.Command1.Name = "Command1"
-        Me.Command1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Command1.Size = New System.Drawing.Size(57, 25)
-        Me.Command1.TabIndex = 5
-        Me.Command1.Text = "OK"
-        Me.Command1.UseVisualStyleBackColor = False
+        Me.CmdOK.BackColor = System.Drawing.SystemColors.Control
+        Me.CmdOK.Cursor = System.Windows.Forms.Cursors.Default
+        Me.CmdOK.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CmdOK.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.CmdOK.Location = New System.Drawing.Point(101, 333)
+        Me.CmdOK.Name = "CmdOK"
+        Me.CmdOK.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.CmdOK.Size = New System.Drawing.Size(57, 25)
+        Me.CmdOK.TabIndex = 5
+        Me.CmdOK.Text = "OK"
+        Me.CmdOK.UseVisualStyleBackColor = False
         '
-        'Label3
+        'LblGuess
         '
-        Me.Label3.BackColor = System.Drawing.SystemColors.Control
-        Me.Label3.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label3.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label3.Location = New System.Drawing.Point(32, 230)
-        Me.Label3.Name = "Label3"
-        Me.Label3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label3.Size = New System.Drawing.Size(201, 25)
-        Me.Label3.TabIndex = 7
-        Me.Label3.Text = "Number of guesses"
+        Me.LblGuess.BackColor = System.Drawing.SystemColors.Control
+        Me.LblGuess.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LblGuess.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblGuess.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LblGuess.Location = New System.Drawing.Point(32, 139)
+        Me.LblGuess.Name = "LblGuess"
+        Me.LblGuess.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LblGuess.Size = New System.Drawing.Size(201, 25)
+        Me.LblGuess.TabIndex = 7
+        Me.LblGuess.Text = "Number of guesses"
         '
-        'Label2
+        'LblRange
         '
-        Me.Label2.BackColor = System.Drawing.SystemColors.Control
-        Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label2.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label2.Location = New System.Drawing.Point(32, 136)
-        Me.Label2.Name = "Label2"
-        Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label2.Size = New System.Drawing.Size(193, 25)
-        Me.Label2.TabIndex = 6
-        Me.Label2.Text = "Number or range of values"
+        Me.LblRange.BackColor = System.Drawing.SystemColors.Control
+        Me.LblRange.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LblRange.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblRange.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LblRange.Location = New System.Drawing.Point(32, 74)
+        Me.LblRange.Name = "LblRange"
+        Me.LblRange.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LblRange.Size = New System.Drawing.Size(193, 25)
+        Me.LblRange.TabIndex = 6
+        Me.LblRange.Text = "Number or range of values"
         '
-        'Label1
+        'LblColumn
         '
-        Me.Label1.BackColor = System.Drawing.SystemColors.Control
-        Me.Label1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label1.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label1.Location = New System.Drawing.Point(32, 48)
-        Me.Label1.Name = "Label1"
-        Me.Label1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label1.Size = New System.Drawing.Size(185, 17)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Number of columns or digits"
+        Me.LblColumn.BackColor = System.Drawing.SystemColors.Control
+        Me.LblColumn.Cursor = System.Windows.Forms.Cursors.Default
+        Me.LblColumn.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblColumn.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.LblColumn.Location = New System.Drawing.Point(32, 11)
+        Me.LblColumn.Name = "LblColumn"
+        Me.LblColumn.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.LblColumn.Size = New System.Drawing.Size(185, 17)
+        Me.LblColumn.TabIndex = 0
+        Me.LblColumn.Text = "Number of columns or digits"
         '
-        'Slider2
+        'SldRange
         '
-        Me.Slider2.Location = New System.Drawing.Point(5, 153)
-        Me.Slider2.Minimum = 1
-        Me.Slider2.Name = "Slider2"
-        Me.Slider2.Size = New System.Drawing.Size(212, 45)
-        Me.Slider2.TabIndex = 77
-        Me.Slider2.Value = 1
+        Me.SldRange.Location = New System.Drawing.Point(5, 91)
+        Me.SldRange.Minimum = 1
+        Me.SldRange.Name = "SldRange"
+        Me.SldRange.Size = New System.Drawing.Size(220, 45)
+        Me.SldRange.TabIndex = 77
+        Me.SldRange.Value = 1
         '
-        'Slider1
+        'SldColumn
         '
-        Me.Slider1.Location = New System.Drawing.Point(5, 68)
-        Me.Slider1.Maximum = 5
-        Me.Slider1.Minimum = 1
-        Me.Slider1.Name = "Slider1"
-        Me.Slider1.Size = New System.Drawing.Size(220, 45)
-        Me.Slider1.TabIndex = 76
-        Me.Slider1.Value = 1
+        Me.SldColumn.Location = New System.Drawing.Point(5, 31)
+        Me.SldColumn.Maximum = 5
+        Me.SldColumn.Minimum = 1
+        Me.SldColumn.Name = "SldColumn"
+        Me.SldColumn.Size = New System.Drawing.Size(220, 45)
+        Me.SldColumn.TabIndex = 76
+        Me.SldColumn.Value = 1
         '
-        'frmwbProp
+        'LblColumnVal
         '
-        Me.AcceptButton = Me.Command1
+        Me.LblColumnVal.AutoSize = True
+        Me.LblColumnVal.Location = New System.Drawing.Point(257, 31)
+        Me.LblColumnVal.Name = "LblColumnVal"
+        Me.LblColumnVal.Size = New System.Drawing.Size(0, 14)
+        Me.LblColumnVal.TabIndex = 79
+        '
+        'LblRangeVal
+        '
+        Me.LblRangeVal.AutoSize = True
+        Me.LblRangeVal.Location = New System.Drawing.Point(257, 91)
+        Me.LblRangeVal.Name = "LblRangeVal"
+        Me.LblRangeVal.Size = New System.Drawing.Size(0, 14)
+        Me.LblRangeVal.TabIndex = 80
+        '
+        'LblGuessVal
+        '
+        Me.LblGuessVal.AutoSize = True
+        Me.LblGuessVal.Location = New System.Drawing.Point(257, 167)
+        Me.LblGuessVal.Name = "LblGuessVal"
+        Me.LblGuessVal.Size = New System.Drawing.Size(0, 14)
+        Me.LblGuessVal.TabIndex = 81
+        '
+        'lblProbability
+        '
+        Me.lblProbability.AutoSize = True
+        Me.lblProbability.Location = New System.Drawing.Point(13, 219)
+        Me.lblProbability.Name = "lblProbability"
+        Me.lblProbability.Size = New System.Drawing.Size(69, 14)
+        Me.lblProbability.TabIndex = 82
+        Me.lblProbability.Text = "Permutations"
+        '
+        'txtProbability
+        '
+        Me.txtProbability.BackColor = System.Drawing.SystemColors.Menu
+        Me.txtProbability.Cursor = System.Windows.Forms.Cursors.Default
+        Me.txtProbability.Location = New System.Drawing.Point(88, 216)
+        Me.txtProbability.Name = "txtProbability"
+        Me.txtProbability.ReadOnly = True
+        Me.txtProbability.Size = New System.Drawing.Size(129, 20)
+        Me.txtProbability.TabIndex = 83
+        '
+        'FrmWVProp
+        '
+        Me.AcceptButton = Me.CmdOK
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(243, 378)
-        Me.Controls.Add(Me.Slider3)
-        Me.Controls.Add(Me.Slider2)
-        Me.Controls.Add(Me.Slider1)
-        Me.Controls.Add(Me.Cancel)
-        Me.Controls.Add(Me.Command1)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.ClientSize = New System.Drawing.Size(329, 378)
+        Me.Controls.Add(Me.txtProbability)
+        Me.Controls.Add(Me.lblProbability)
+        Me.Controls.Add(Me.LblGuessVal)
+        Me.Controls.Add(Me.LblRangeVal)
+        Me.Controls.Add(Me.LblColumnVal)
+        Me.Controls.Add(Me.SldGuess)
+        Me.Controls.Add(Me.SldRange)
+        Me.Controls.Add(Me.SldColumn)
+        Me.Controls.Add(Me.CmdCancel)
+        Me.Controls.Add(Me.CmdOK)
+        Me.Controls.Add(Me.LblGuess)
+        Me.Controls.Add(Me.LblRange)
+        Me.Controls.Add(Me.LblColumn)
         Me.Cursor = System.Windows.Forms.Cursors.Default
         Me.Font = New System.Drawing.Font("Arial", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -183,56 +241,72 @@ Friend Class FrmwbProp
         Me.Location = New System.Drawing.Point(388, 23)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "frmwbProp"
+        Me.Name = "FrmWVProp"
         Me.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-        Me.Text = "Properties"
-        CType(Me.Slider3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Slider2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Slider1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Text = "Preferences"
+        CType(Me.SldGuess, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SldRange, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SldColumn, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 #End Region
 #Region "Upgrade Support "
-    Private Shared m_vb6FormDefInstance As FrmwbProp
+    Private Shared m_vb6FormDefInstance As FrmWVProp
     Private Shared m_InitializingDefInstance As Boolean
-    Public Shared Property DefInstance() As FrmwbProp
+    Public Shared Property DefInstance() As FrmWVProp
         Get
             If m_vb6FormDefInstance Is Nothing OrElse m_vb6FormDefInstance.IsDisposed Then
                 m_InitializingDefInstance = True
-                m_vb6FormDefInstance = New FrmwbProp()
+                m_vb6FormDefInstance = New FrmWVProp()
                 m_InitializingDefInstance = False
             End If
             DefInstance = m_vb6FormDefInstance
         End Get
-        Set(ByVal value As FrmwbProp)
+        Set(ByVal value As FrmWVProp)
             m_vb6FormDefInstance = value
         End Set
     End Property
 #End Region
 
-    Private Sub Cancel_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles CmdCancel.Click
         Me.Close()
     End Sub
 
-    Private Sub Command1_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles Command1.Click
-        My.Settings.Columns = Slider1.Value
-        My.Settings.Numbers = Slider2.Value
-        My.Settings.Guesses = Slider3.Value
+    Private Sub CmdOK_Click(ByVal eventSender As System.Object, ByVal eventArgs As System.EventArgs) Handles CmdOK.Click
+        My.Settings.Columns = SldColumn.Value
+        My.Settings.Numbers = SldRange.Value
+        My.Settings.Guesses = SldGuess.Value
         My.Settings.Save()
         Me.Close()
     End Sub
 
     Private Sub FrmwbProp_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Try
-            Slider1.Value = My.Settings.Columns
-            Slider2.Value = My.Settings.Numbers
-            Slider3.Value = My.Settings.Guesses
+            SldColumn.Value = My.Settings.Columns
+            SldRange.Value = My.Settings.Numbers
+            SldGuess.Value = My.Settings.Guesses
+            txtProbability.Text = SldRange.Value ^ SldColumn.Value
         Catch ex As Exception
             MsgBox("frmWBProp_Load: " & ex.Message)
         End Try
     End Sub
+
+    Private Sub SldColumn_ValueChanged(sender As Object, e As EventArgs) Handles SldColumn.ValueChanged
+        LblColumnVal.Text = SldColumn.Value
+        txtProbability.Text = SldRange.Value ^ SldColumn.Value
+    End Sub
+
+    Private Sub SldRange_ValueChanged(sender As Object, e As EventArgs) Handles SldRange.ValueChanged
+        LblRangeVal.Text = "0 - " & SldRange.Value - 1
+        txtProbability.Text = SldRange.Value ^ SldColumn.Value
+    End Sub
+
+    Private Sub SldGuess_ValueChanged(sender As Object, e As EventArgs) Handles SldGuess.ValueChanged
+        LblGuessVal.Text = SldGuess.Value
+    End Sub
+
 End Class
